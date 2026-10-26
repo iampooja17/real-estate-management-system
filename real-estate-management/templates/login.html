@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login - Real Estate Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <h1>Real Estate Management System</h1>
+
+        <h2>Login</h2>
+
+        <form method="POST" action="/login">
+
+            <label>Username</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p class="login-info">
+            Demo Username: admin
+        </p>
+
+        <p class="login-info">
+            Demo Password: admin123
+        </p>
+
+    </div>
+
+</body>
+
+</html>

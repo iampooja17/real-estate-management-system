@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customers - Real Estate Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>REAL ESTATE</h2>
+            <p>Management System</p>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/properties">
+                Properties
+            </a>
+
+            <a href="/customers" class="active">
+                Customers
+            </a>
+
+            <a href="/agents">
+                Agents
+            </a>
+
+            <a href="/transactions">
+                Transactions
+            </a>
+
+            <a href="/reports">
+                Reports
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="top-bar">
+
+            <div>
+                <h1>Customer Management</h1>
+                <p>Manage registered property customers</p>
+            </div>
+
+            <div class="admin-profile">
+                <span>Administrator</span>
+            </div>
+
+        </header>
+
+
+        <div class="page-content">
+
+
+            <!-- ADD CUSTOMER -->
+            <section class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Add New Customer</h2>
+                        <p>Enter customer information below</p>
+                    </div>
+
+                </div>
+
+
+                <form action="/add_customer"
+                      method="POST"
+                      class="professional-form">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>Customer Name</label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Enter customer name"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Phone Number</label>
+
+                            <input
+                                type="text"
+                                name="phone"
+                                placeholder="Enter phone number"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Email Address</label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Enter email address"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-buttons">
+
+                        <button
+                            type="submit"
+                            class="primary-button">
+
+                            Add Customer
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+
+            <!-- CUSTOMER LIST -->
+            <section class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Customer List</h2>
+                        <p>All customers registered in the system</p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>Name</th>
+
+                                <th>Phone</th>
+
+                                <th>Email</th>
+
+                                <th>Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for customer in customers %}
+
+                            <tr>
+
+                                <td>
+                                    {{ customer.customer_id }}
+                                </td>
+
+                                <td>
+
+                                    <strong>
+                                        {{ customer.name }}
+                                    </strong>
+
+                                </td>
+
+                                <td>
+                                    {{ customer.phone }}
+                                </td>
+
+                                <td>
+                                    {{ customer.email }}
+                                </td>
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <a
+                                            href="/edit_customer/{{ customer.customer_id }}"
+                                            class="edit-button">
+
+                                            Edit
+
+                                        </a>
+
+
+                                        <a
+                                            href="/delete_customer/{{ customer.customer_id }}"
+                                            class="delete-button"
+                                            onclick="return confirm('Are you sure you want to delete this customer?');">
+
+                                            Delete
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td colspan="5">
+
+                                    <div class="empty-state">
+
+                                        <div class="empty-icon">
+                                            👥
+                                        </div>
+
+                                        <h3>
+                                            No Customers Found
+                                        </h3>
+
+                                        <p>
+                                            Add a customer to get started.
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

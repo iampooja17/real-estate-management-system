@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reports - Real Estate Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>REAL ESTATE</h2>
+            <p>Management System</p>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/properties">
+                Properties
+            </a>
+
+            <a href="/customers">
+                Customers
+            </a>
+
+            <a href="/agents">
+                Agents
+            </a>
+
+            <a href="/transactions">
+                Transactions
+            </a>
+
+            <a href="/reports" class="active">
+                Reports
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="top-bar">
+
+            <div>
+                <h1>Reports & Analytics</h1>
+                <p>Real estate management reports</p>
+            </div>
+
+            <div class="admin-profile">
+                <span>Administrator</span>
+            </div>
+
+        </header>
+
+
+        <div class="page-content">
+
+
+            <!-- SUMMARY CARDS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🏠
+                    </div>
+
+                    <div>
+
+                        <p>Total Properties</p>
+
+                        <h2>
+                            {{ total_properties }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div>
+
+                        <p>Total Customers</p>
+
+                        <h2>
+                            {{ total_customers }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👨‍💼
+                    </div>
+
+                    <div>
+
+                        <p>Total Agents</p>
+
+                        <h2>
+                            {{ total_agents }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <p>Total Transactions</p>
+
+                        <h2>
+                            {{ total_transactions }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SALES SUMMARY -->
+
+            <section class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>Sales Summary</h2>
+
+                        <p>
+                            Total value of recorded transactions
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-highlight">
+
+                    <h1>
+                        ₹{{ "{:,.2f}".format(total_sales) }}
+                    </h1>
+
+                    <p>
+                        Total Sales Value
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- PROPERTY STATUS REPORT -->
+
+            <section class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>Property Status Report</h2>
+
+                        <p>
+                            Properties grouped by current status
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Status</th>
+
+                                <th>Number of Properties</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for item in property_status %}
+
+                            <tr>
+
+                                <td>
+
+                                    {% if item.status == "Available" %}
+
+                                    <span class="status-badge status-available">
+                                        Available
+                                    </span>
+
+                                    {% elif item.status == "Sold" %}
+
+                                    <span class="status-badge status-sold">
+                                        Sold
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="status-badge status-pending">
+                                        {{ item.status }}
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    <strong>
+                                        {{ item.total }}
+                                    </strong>
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td colspan="2">
+                                    No property status data available.
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- AGENT REPORT -->
+
+            <section class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>Agent Property Report</h2>
+
+                        <p>
+                            Number of properties handled by each agent
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Agent</th>
+
+                                <th>Properties Handled</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for agent in agent_report %}
+
+                            <tr>
+
+                                <td>
+
+                                    <strong>
+                                        {{ agent.agent_name }}
+                                    </strong>
+
+                                </td>
+
+                                <td>
+
+                                    {{ agent.property_count }}
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td colspan="2">
+                                    No agent data available.
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

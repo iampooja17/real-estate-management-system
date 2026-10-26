@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard - Real Estate Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+
+                <div class="logo-icon">🏠</div>
+
+                <div>
+                    <h2>Real Estate</h2>
+                    <p>Management System</p>
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="/dashboard" class="active">
+                    🏠 Dashboard
+                </a>
+
+                <a href="/properties">
+                    🏢 Properties
+                </a>
+
+                <a href="/customers">
+                    👥 Customers
+                </a>
+
+                <a href="/agents">
+                    👨‍💼 Agents
+                </a>
+
+                <a href="/transactions">
+                    💰 Transactions
+                </a>
+
+                <a href="/reports">
+                    📊 Reports
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <a href="/">
+                    🚪 Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+
+            <div class="top-bar">
+
+                <div>
+
+                    <h1>Dashboard</h1>
+
+                    <p>
+                        Welcome to your Real Estate Management System
+                    </p>
+
+                </div>
+
+
+                <div class="admin-profile">
+
+                    <div class="admin-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <strong>Administrator</strong>
+
+                        <small>Admin</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🏢
+                    </div>
+
+                    <div>
+
+                        <p>Total Properties</p>
+
+                        <h2>{{ total_properties }}</h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div>
+
+                        <p>Total Customers</p>
+
+                        <h2>{{ total_customers }}</h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👨‍💼
+                    </div>
+
+                    <div>
+
+                        <p>Total Agents</p>
+
+                        <h2>{{ total_agents }}</h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <p>Total Sales</p>
+
+                        <h2>₹{{ total_sales }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROPERTY STATUS -->
+
+            <div class="section-title">
+
+                <h2>Property Overview</h2>
+
+            </div>
+
+
+            <div class="overview-grid">
+
+
+                <div class="overview-card available">
+
+                    <div class="overview-number">
+                        {{ available_properties }}
+                    </div>
+
+                    <div>
+
+                        <h3>Available</h3>
+
+                        <p>Properties available for sale</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="overview-card sold">
+
+                    <div class="overview-number">
+                        {{ sold_properties }}
+                    </div>
+
+                    <div>
+
+                        <h3>Sold</h3>
+
+                        <p>Properties successfully sold</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="overview-card pending">
+
+                    <div class="overview-number">
+                        {{ pending_properties }}
+                    </div>
+
+                    <div>
+
+                        <h3>Pending</h3>
+
+                        <p>Properties awaiting action</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="overview-card transactions">
+
+                    <div class="overview-number">
+                        {{ total_transactions }}
+                    </div>
+
+                    <div>
+
+                        <h3>Transactions</h3>
+
+                        <p>Total transactions recorded</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECENT TRANSACTIONS -->
+
+            <div class="section-header">
+
+                <h2>Recent Transactions</h2>
+
+                <a href="/transactions">
+                    View All →
+                </a>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Property</th>
+                            <th>Location</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for transaction in recent_transactions %}
+
+                        <tr>
+
+                            <td>
+                                #{{ transaction.transaction_id }}
+                            </td>
+
+                            <td>
+                                {{ transaction.customer_name }}
+                            </td>
+
+                            <td>
+                                {{ transaction.property_type }}
+                            </td>
+
+                            <td>
+                                {{ transaction.location }}
+                            </td>
+
+                            <td>
+                                ₹{{ transaction.amount }}
+                            </td>
+
+                            <td>
+                                {{ transaction.transaction_date }}
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="6">
+                                No transactions available.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

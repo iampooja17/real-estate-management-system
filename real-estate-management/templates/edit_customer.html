@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Customer - Real Estate Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <h1>Real Estate Management System</h1>
+
+        <h2>Edit Customer</h2>
+
+
+        <div class="form-box">
+
+            <h3>Update Customer Details</h3>
+
+
+            <form method="POST"
+                  action="/update_customer/{{ customer.customer_id }}">
+
+
+                <label>Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    value="{{ customer.name }}"
+                    required
+                >
+
+
+                <label>Phone</label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    value="{{ customer.phone }}"
+                    required
+                >
+
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ customer.email }}"
+                    required
+                >
+
+
+                <button type="submit">
+                    Update Customer
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <br>
+
+
+        <a class="back-link" href="/customers">
+            ← Back to Customers
+        </a>
+
+    </div>
+
+</body>
+
+</html>

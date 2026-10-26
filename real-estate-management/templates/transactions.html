@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transactions - Real Estate Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>REAL ESTATE</h2>
+            <p>Management System</p>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/properties">
+                Properties
+            </a>
+
+            <a href="/customers">
+                Customers
+            </a>
+
+            <a href="/agents">
+                Agents
+            </a>
+
+            <a href="/transactions" class="active">
+                Transactions
+            </a>
+
+            <a href="/reports">
+                Reports
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="top-bar">
+
+            <div>
+                <h1>Transaction Management</h1>
+                <p>Manage property sales and transactions</p>
+            </div>
+
+            <div class="admin-profile">
+                <span>Administrator</span>
+            </div>
+
+        </header>
+
+
+        <div class="page-content">
+
+
+            <!-- ADD TRANSACTION -->
+            <section class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Add New Transaction</h2>
+                        <p>Record a property sale</p>
+                    </div>
+
+                </div>
+
+
+                <form action="/add_transaction"
+                      method="POST"
+                      class="professional-form">
+
+                    <div class="form-grid">
+
+
+                        <!-- CUSTOMER -->
+
+                        <div class="form-group">
+
+                            <label>Customer</label>
+
+                            <select name="customer_id" required>
+
+                                <option value="">
+                                    Select Customer
+                                </option>
+
+                                {% for customer in customers %}
+
+                                <option value="{{ customer.customer_id }}">
+
+                                    {{ customer.name }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- PROPERTY -->
+
+                        <div class="form-group">
+
+                            <label>Property</label>
+
+                            <select name="property_id" required>
+
+                                <option value="">
+                                    Select Property
+                                </option>
+
+                                {% for property in properties %}
+
+                                <option value="{{ property.property_id }}">
+
+                                    {{ property.property_type }}
+                                    -
+                                    {{ property.location }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- AGENT -->
+
+                        <div class="form-group">
+
+                            <label>Agent</label>
+
+                            <select name="agent_id" required>
+
+                                <option value="">
+                                    Select Agent
+                                </option>
+
+                                {% for agent in agents %}
+
+                                <option value="{{ agent.agent_id }}">
+
+                                    {{ agent.name }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- AMOUNT -->
+
+                        <div class="form-group">
+
+                            <label>Transaction Amount</label>
+
+                            <input
+                                type="number"
+                                name="amount"
+                                placeholder="Enter amount"
+                                required>
+
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="form-group">
+
+                            <label>Transaction Date</label>
+
+                            <input
+                                type="date"
+                                name="transaction_date"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-buttons">
+
+                        <button
+                            type="submit"
+                            class="primary-button">
+
+                            Add Transaction
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+
+            <!-- TRANSACTION LIST -->
+
+            <section class="section-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Transaction History</h2>
+                        <p>All recorded property transactions</p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>Customer</th>
+
+                                <th>Property</th>
+
+                                <th>Location</th>
+
+                                <th>Agent</th>
+
+                                <th>Amount</th>
+
+                                <th>Date</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for transaction in transactions %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ transaction.transaction_id }}
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        {{ transaction.customer_name }}
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ transaction.property_type }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ transaction.location }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ transaction.agent_name }}
+
+                                </td>
+
+
+                                <td>
+
+                                    ₹{{ "{:,.2f}".format(transaction.amount) }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ transaction.transaction_date }}
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td colspan="7">
+
+                                    <div class="empty-state">
+
+                                        <div class="empty-icon">
+                                            💰
+                                        </div>
+
+                                        <h3>
+                                            No Transactions Found
+                                        </h3>
+
+                                        <p>
+                                            Add a transaction to get started.
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

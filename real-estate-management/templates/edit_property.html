@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Property - Real Estate Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <h1>Real Estate Management System</h1>
+
+        <h2>Edit Property</h2>
+
+        <div class="form-box">
+
+            <h3>Update Property Details</h3>
+
+            <form method="POST"
+                  action="/update_property/{{ property.property_id }}">
+
+                <label>Property Type</label>
+
+                <input
+                    type="text"
+                    name="property_type"
+                    value="{{ property.property_type }}"
+                    required
+                >
+
+
+                <label>Location</label>
+
+                <input
+                    type="text"
+                    name="location"
+                    value="{{ property.location }}"
+                    required
+                >
+
+
+                <label>Price</label>
+
+                <input
+                    type="number"
+                    name="price"
+                    value="{{ property.price }}"
+                    required
+                >
+
+
+                <label>Status</label>
+
+                <select name="status" required>
+
+                    <option value="Available"
+                        {% if property.status == "Available" %}selected{% endif %}>
+                        Available
+                    </option>
+
+                    <option value="Sold"
+                        {% if property.status == "Sold" %}selected{% endif %}>
+                        Sold
+                    </option>
+
+                    <option value="Pending"
+                        {% if property.status == "Pending" %}selected{% endif %}>
+                        Pending
+                    </option>
+
+                </select>
+
+
+                <label>Agent</label>
+
+                <select name="agent_id" required>
+
+                    {% for agent in agents %}
+
+                    <option
+                        value="{{ agent.agent_id }}"
+                        {% if agent.agent_id == property.agent_id %}selected{% endif %}
+                    >
+                        {{ agent.name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <button type="submit">
+                    Update Property
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <br>
+
+        <a class="back-link" href="/properties">
+            ← Back to Properties
+        </a>
+
+    </div>
+
+</body>
+
+</html>
